@@ -46,6 +46,7 @@ Applications
    Tsp
    VehicleRouting
    VertexCover
+   Maxkcut
 """
 
 from .clique import Clique
@@ -77,4 +78,5 @@ __all__ = [
     "Tsp",
     "VehicleRouting",
     "VertexCover",
+    "Maxkcut",
 ]

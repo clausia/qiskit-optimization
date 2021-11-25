@@ -24,17 +24,18 @@ class Maxkcut(GraphOptimizationApplication):
     """Optimization application for the "max-k-cut" [1] problem based on a NetworkX graph.
 
     References:
-        [1]: Frieze A., Jerrum M. (1995)
-             Improved approximation algorithms for MAX k-CUT and MAX BISECTION.
-             In: Balas E., Clausen J. (eds) Integer Programming and Combinatorial Optimization.
-             IPCO 1995. Lecture Notes in Computer Science, vol 920. Springer, Berlin, Heidelberg. https://doi.org/10.1007/3-540-59408-6_37
+        [1]: Z. Tabi et al.,
+             "Quantum Optimization for the Graph Coloring Problem with Space-Efficient Embedding"
+             2020 IEEE International Conference on Quantum Computing and Engineering (QCE),
+             2020, pp. 56-62, doi: 10.1109/QCE49297.2020.00018.,
+             https://ieeexplore.ieee.org/document/9259934
     """
 
     def __init__(self, graph: Union[nx.Graph, np.ndarray, List], k: int) -> None:
         """
         Args:
             graph: A graph representing a problem. It can be specified directly as a
-            NetworkX Graph, or as an array or list if format suitable to build out a NetworkX graph.
+            NetworkX Graph, or as an array or list if format suitable to build out a NetworkX graph
             k: An integer 
         """
         super().__init__(graph=graph)
@@ -61,15 +62,15 @@ class Maxkcut(GraphOptimizationApplication):
             for i in range(k)
         }
         first_penalty = mdl.sum_squares(
-                            (1 - mdl.sum(
-                                    x[v, i] for i in range(k)) for v in range(n)
-                             )
-                        )
+                (1 - mdl.sum(
+                        x[v, i] for i in range(k)) for v in range(n)
+                 )
+            )
         second_penalty = mdl.sum(
-                            mdl.sum(
-                                self._graph.edges[v, w]["weight"] * x[v, i] * x[w, i] for i in range(k)
-                            ) for v, w in self._graph.edges
-                         )
+                mdl.sum(
+                    self._graph.edges[v, w]["weight"] * x[v, i] * x[w, i] for i in range(k)
+                ) for v, w in self._graph.edges
+             )
         objective = first_penalty + second_penalty
         mdl.minimize(objective)
         
@@ -114,7 +115,9 @@ class Maxkcut(GraphOptimizationApplication):
         # Return a list of colors for draw.
         # k colors chosen from cm.rainbow
         colors = cm.rainbow(np.linspace(0, 1, self._k))
-        return [colors[i] for i in [np.where(x.reshape((self._graph.number_of_nodes(), self._k)) == 1)[1]]][0].tolist()
+        return [colors[i] for i in [
+                    np.where(x.reshape((self._graph.number_of_nodes(), self._k)) == 1)[1]
+                ]][0].tolist()
 
     @property
     def k(self) -> int:
