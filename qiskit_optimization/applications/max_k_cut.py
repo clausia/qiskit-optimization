@@ -51,8 +51,7 @@ class Maxkcut(GraphOptimizationApplication):
         """
         for w, v in self._graph.edges:
             self._graph.edges[w, v].setdefault("weight", 1)
-        
-        # TODO: describe Max-k-cut in docplex
+
         mdl = Model(name="Max-k-cut")
         n = self._graph.number_of_nodes()
         k = self._k
