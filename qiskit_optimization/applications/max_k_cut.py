@@ -113,11 +113,6 @@ class Maxkcut(GraphOptimizationApplication):
         x = self._result_to_x(result)
         nx.draw(self._graph, node_color=self._node_color(x), pos=pos, with_labels=True)
 
-        # draw edges values
-        pos = nx.spring_layout(self._graph)
-        edge_labels = nx.get_edge_attributes(self._graph, 'weight')
-        nx.draw_networkx_edge_labels(self._graph, pos=pos, edge_labels=edge_labels)
-
     def _node_color(self, x: np.ndarray) -> List[str]:
         # Return a list of colors for draw.
         # k colors chosen from cm.rainbow
