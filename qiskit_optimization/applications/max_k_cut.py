@@ -137,7 +137,7 @@ class Maxkcut(GraphOptimizationApplication):
         for i in range(n):
             node_in_subset = np.where(n_selected[i] == 1)  # one-hot encoding
             if len(node_in_subset[0]) != 0:
-                node_colors[i] = colors[node_in_subset[0][0]]
+                node_colors[i] = to_rgba(colors[node_in_subset[0][0]])
 
         return node_colors
 

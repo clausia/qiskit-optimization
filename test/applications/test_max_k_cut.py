@@ -85,15 +85,20 @@ class TestMaxkcut(QiskitOptimizationTestCase):
 
     def test_node_color(self):
         """Test _node_color"""
-        maxkcut = Maxkcut(self.graph, self.k)
         # default colors
+        maxkcut = Maxkcut(self.graph, self.k)
         self.assertEqual(
             [[round(num, 2) for num in i] for i in maxkcut._node_color(self.result.x)],
             [[0.5, 1.0, 0.7, 1.0], [0.5, 0.0, 1.0, 1.0],
              [1.0, 0.0, 0.0, 1.0], [0.5, 0.0, 1.0, 1.0]]
         )
         # given colors
-        # TODO: test with given colors
+        maxkcut = Maxkcut(self.graph, self.k, colors=['r', 'g', 'b'])
+        self.assertEqual(
+            [[round(num, 2) for num in i] for i in maxkcut._node_color(self.result.x)],
+            [[0.0, 0.5, 0.0, 1.0], [1.0, 0.0, 0.0, 1.0],
+             [0.0, 0.0, 1.0, 1.0], [1.0, 0.0, 0.0, 1.0]]
+        )
 
     def test_draw(self):
         """Test whether draw raises an error if matplotlib is not installed"""
