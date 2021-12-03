@@ -17,6 +17,7 @@ from typing import List, Dict, Optional, Union
 import networkx as nx
 import numpy as np
 from matplotlib.pyplot import cm
+from matplotlib.colors import to_rgba
 from docplex.mp.model import Model
 
 from qiskit_optimization.algorithms import OptimizationResult
@@ -119,10 +120,20 @@ class Maxkcut(GraphOptimizationApplication):
     def _node_color(self, x: np.ndarray) -> List[str]:
         # Return a list of colors for draw.
         # k colors chosen from cm.rainbow
+
+        n = self._graph.number_of_nodes()
+
         colors = cm.rainbow(np.linspace(0, 1, self._k))
-        return [colors[i] for i in [
-                    np.where(x.reshape((self._graph.number_of_nodes(), self._k)) == 1)[1]
-                ]][0].tolist()
+        gray = to_rgba('lightgray')
+        node_colors = np.full((n, len(gray)), gray)
+
+        n_selected = x.reshape((n, self._k))
+        for i in range(n):
+            node_in_subset = np.where(n_selected[i] == 1)  # one-hot encoding
+            if len(node_in_subset[0]) != 0:
+                node_colors[i] = colors[node_in_subset[0][0]]
+
+        return node_colors
 
     @property
     def k(self) -> int:
