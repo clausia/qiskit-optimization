@@ -36,7 +36,7 @@ class Maxkcut(GraphOptimizationApplication):
              https://ieeexplore.ieee.org/document/9259934
     """
 
-    def __init__(self, graph: Union[nx.Graph, np.ndarray, List], k: int) -> None:
+    def __init__(self, graph: Union[nx.Graph, np.ndarray, List], k: int = 3) -> None:
         """
         Args:
             graph: A graph representing a problem. It can be specified directly as a
