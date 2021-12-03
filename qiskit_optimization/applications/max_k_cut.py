@@ -91,12 +91,14 @@ class Maxkcut(GraphOptimizationApplication):
             k lists of node indices correspond to k node sets for the Max-k-cut
         """
         x = self._result_to_x(result)
+        n = self._graph.number_of_nodes()
         cut = [[] for i in range(self._k)]  # type: List[List[int]]
 
-        n_selected = x.reshape((self._graph.number_of_nodes(), self._k))
-        for n in range(self._graph.number_of_nodes()):
-            if len(np.where(n_selected[n] == 1)[0]) != 0:
-                cut[np.where(n_selected[n] == 1)[0][0]].append(n)  # one-hot encoding
+        n_selected = x.reshape((n, self._k))
+        for i in range(n):
+            node_in_subset = np.where(n_selected[i] == 1)[0]  # one-hot encoding
+            if len(node_in_subset) != 0:
+                cut[node_in_subset[0]].append(i)
 
         return cut
 
