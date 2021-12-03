@@ -37,7 +37,12 @@ class Maxkcut(GraphOptimizationApplication):
              https://ieeexplore.ieee.org/document/9259934
     """
 
-    def __init__(self, graph: Union[nx.Graph, np.ndarray, List], k: int = 3) -> None:
+    def __init__(
+            self,
+            graph: Union[nx.Graph, np.ndarray, List],
+            k: int = 3,
+            colors: Optional[Union[List[str], List[List[int]]]] = None
+    ) -> None:
         """
         Args:
             graph: A graph representing a problem. It can be specified directly as a
@@ -46,6 +51,7 @@ class Maxkcut(GraphOptimizationApplication):
         """
         super().__init__(graph=graph)
         self._k = k
+        self._colors = colors
 
     def to_quadratic_program(self) -> QuadraticProgram:
         """Convert a Max-k-cut problem instance into a
@@ -117,13 +123,13 @@ class Maxkcut(GraphOptimizationApplication):
         x = self._result_to_x(result)
         nx.draw(self._graph, node_color=self._node_color(x), pos=pos, with_labels=True)
 
-    def _node_color(self, x: np.ndarray) -> List[str]:
+    def _node_color(self, x: np.ndarray) -> List[List[int]]:
         # Return a list of colors for draw.
-        # k colors chosen from cm.rainbow
 
         n = self._graph.number_of_nodes()
 
-        colors = cm.rainbow(np.linspace(0, 1, self._k))
+        # k colors chosen from cm.rainbow, or from given color list
+        colors = cm.rainbow(np.linspace(0, 1, self._k)) if self._colors is None else self._colors
         gray = to_rgba('lightgray')
         node_colors = np.full((n, len(gray)), gray)
 
@@ -140,7 +146,7 @@ class Maxkcut(GraphOptimizationApplication):
         """Getter of k
 
         Returns:
-            The size of the clique
+            The number of subsets
         """
         return self._k
 
@@ -149,6 +155,24 @@ class Maxkcut(GraphOptimizationApplication):
         """Setter of k
 
         Args:
-            k: The size of the clique
+            k: The number of subsets
         """
         self._k = k
+
+    @property
+    def colors(self) -> Union[List[str], List[List[int]]]:
+        """Getter of colors
+
+        Returns:
+            The k size color list
+        """
+        return self._colors
+
+    @colors.setter
+    def colors(self, colors: Union[List[str], List[List[int]]]) -> None:
+        """Setter of colors
+
+        Args:
+            colors: The k size color list
+        """
+        self._colors = colors
