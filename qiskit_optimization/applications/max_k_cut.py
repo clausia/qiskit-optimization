@@ -40,18 +40,21 @@ class Maxkcut(GraphOptimizationApplication):
     def __init__(
             self,
             graph: Union[nx.Graph, np.ndarray, List],
-            k: int = 3,
+            k: int,
             colors: Optional[Union[List[str], List[List[int]]]] = None
     ) -> None:
         """
         Args:
             graph: A graph representing a problem. It can be specified directly as a
-            NetworkX Graph, or as an array or list if format suitable to build out a NetworkX graph
-            k: An integer 
+                `NetworkX <https://networkx.org/>`_ graph,
+                or as an array or list format suitable to build out a NetworkX graph.
+            k: The number of colors
+            colors: List of strings or list of colors in rgba lists to be assigned to each
+                resulting subset, there must be as many colors as the number k
         """
         super().__init__(graph=graph)
         self._k = k
-        self._colors = colors
+        self._colors = colors if colors and len(colors) >= k else None
 
     def to_quadratic_program(self) -> QuadraticProgram:
         """Convert a Max-k-cut problem instance into a
@@ -146,7 +149,7 @@ class Maxkcut(GraphOptimizationApplication):
         """Getter of k
 
         Returns:
-            The number of subsets
+            The number of colors
         """
         return self._k
 
@@ -155,13 +158,14 @@ class Maxkcut(GraphOptimizationApplication):
         """Setter of k
 
         Args:
-            k: The number of subsets
+            k: The number of colors
         """
         self._k = k
+        self._colors = self._colors if self._colors and len(self._colors) >= k else None
 
     @property
     def colors(self) -> Union[List[str], List[List[int]]]:
-        """Getter of colors
+        """Getter of colors list
 
         Returns:
             The k size color list
@@ -170,9 +174,9 @@ class Maxkcut(GraphOptimizationApplication):
 
     @colors.setter
     def colors(self, colors: Union[List[str], List[List[int]]]) -> None:
-        """Setter of colors
+        """Setter of colors list
 
         Args:
             colors: The k size color list
         """
-        self._colors = colors
+        self._colors = colors if colors and len(colors) >= self._k else None
