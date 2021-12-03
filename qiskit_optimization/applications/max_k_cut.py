@@ -95,7 +95,8 @@ class Maxkcut(GraphOptimizationApplication):
 
         n_selected = x.reshape((self._graph.number_of_nodes(), self._k))
         for n in range(self._graph.number_of_nodes()):
-            cut[np.where(n_selected[n] == 1)[0][0]].append(n)
+            if len(np.where(n_selected[n] == 1)[0]) != 0:
+                cut[np.where(n_selected[n] == 1)[0][0]].append(n)  # one-hot encoding
 
         return cut
 
