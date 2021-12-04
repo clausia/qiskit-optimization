@@ -39,6 +39,7 @@ Applications
    GraphPartition
    Knapsack
    Maxcut
+   Maxkcut
    NumberPartition
    SetPacking
    SKModel
@@ -46,7 +47,6 @@ Applications
    Tsp
    VehicleRouting
    VertexCover
-   Maxkcut
 """
 
 from .clique import Clique
@@ -70,6 +70,7 @@ __all__ = [
     "GraphOptimizationApplication",
     "Knapsack",
     "Maxcut",
+    "Maxkcut",
     "NumberPartition",
     "OptimizationApplication",
     "SetPacking",
@@ -78,5 +79,4 @@ __all__ = [
     "Tsp",
     "VehicleRouting",
     "VertexCover",
-    "Maxkcut",
 ]
