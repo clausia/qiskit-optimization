@@ -38,10 +38,10 @@ class Maxkcut(GraphOptimizationApplication):
     """
 
     def __init__(
-            self,
-            graph: Union[nx.Graph, np.ndarray, List],
-            k: int,
-            colors: Optional[Union[List[str], List[List[int]]]] = None
+        self,
+        graph: Union[nx.Graph, np.ndarray, List],
+        k: int,
+        colors: Optional[Union[List[str], List[List[int]]]] = None
     ) -> None:
         """
         Args:
@@ -75,16 +75,11 @@ class Maxkcut(GraphOptimizationApplication):
             for v in range(n)
             for i in range(k)
         }
-        first_penalty = mdl.sum_squares(
-                (1 - mdl.sum(
-                        x[v, i] for i in range(k)) for v in range(n)
-                 )
-            )
+        first_penalty = mdl.sum_squares((1 - mdl.sum(x[v, i] for i in range(k)) for v in range(n)))
         second_penalty = mdl.sum(
-                mdl.sum(
-                    self._graph.edges[v, w]["weight"] * x[v, i] * x[w, i] for i in range(k)
-                ) for v, w in self._graph.edges
-             )
+            mdl.sum(self._graph.edges[v, w]["weight"] * x[v, i] * x[w, i] for i in range(k))
+            for v, w in self._graph.edges
+        )
         objective = first_penalty + second_penalty
         mdl.minimize(objective)
 
@@ -132,8 +127,9 @@ class Maxkcut(GraphOptimizationApplication):
         n = self._graph.number_of_nodes()
 
         # k colors chosen from cm.rainbow, or from given color list
-        colors = \
+        colors = (
             cm.rainbow(np.linspace(0, 1, self._k_num)) if self._colors is None else self._colors
+        )
         gray = to_rgba('lightgray')
         node_colors = np.full((n, len(gray)), gray)
 
