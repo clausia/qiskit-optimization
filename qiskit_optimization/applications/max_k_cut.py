@@ -23,7 +23,7 @@ from docplex.mp.model import Model
 from qiskit_optimization.algorithms import OptimizationResult
 from qiskit_optimization.problems.quadratic_program import QuadraticProgram
 from qiskit_optimization.translators import from_docplex_mp
-from qiskit_optimization.applications import GraphOptimizationApplication
+from .graph_optimization_application import GraphOptimizationApplication
 
 
 class Maxkcut(GraphOptimizationApplication):
