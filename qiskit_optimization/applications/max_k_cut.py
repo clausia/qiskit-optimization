@@ -13,7 +13,7 @@
 
 """An application class for the Max-k-cut."""
 
-from typing import List, Dict, Optional, Union
+from typing import List, Dict, Tuple, Optional, Union
 import networkx as nx
 import numpy as np
 from matplotlib.pyplot import cm
@@ -121,7 +121,7 @@ class Maxkcut(GraphOptimizationApplication):
         x = self._result_to_x(result)
         nx.draw(self._graph, node_color=self._node_color(x), pos=pos, with_labels=True)
 
-    def _node_color(self, x: np.ndarray) -> List[List[float]]:
+    def _node_color(self, x: np.ndarray) -> List[Tuple[float, float, float, float]]:
         # Return a list of colors for draw.
 
         n = self._graph.number_of_nodes()
@@ -131,7 +131,6 @@ class Maxkcut(GraphOptimizationApplication):
             cm.rainbow(np.linspace(0, 1, self._k_num)) if self._colors is None else self._colors
         )
         gray = to_rgba("lightgray")
-        node_colors = np.full((n, len(gray)), gray)
         node_colors = [gray for _ in range(n)]
 
         n_selected = x.reshape((n, self._k_num))
