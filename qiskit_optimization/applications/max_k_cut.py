@@ -41,7 +41,7 @@ class Maxkcut(GraphOptimizationApplication):
         self,
         graph: Union[nx.Graph, np.ndarray, List],
         k: int,
-        colors: Optional[Union[List[str], List[List[int]]]] = None
+        colors: Optional[Union[List[str], List[List[int]]]] = None,
     ) -> None:
         """
         Args:
