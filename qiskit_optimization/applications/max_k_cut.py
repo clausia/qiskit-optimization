@@ -71,7 +71,7 @@ class Maxkcut(GraphOptimizationApplication):
         n = self._graph.number_of_nodes()
         k = self._k_num
         x = {
-            (v, i): mdl.binary_var(name=f"x_{0}_{1}".format(v, i))
+            (v, i): mdl.binary_var(name=f"x_{v}_{i}")
             for v in range(n)
             for i in range(k)
         }
