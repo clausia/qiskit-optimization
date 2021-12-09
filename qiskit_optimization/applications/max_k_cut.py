@@ -121,7 +121,7 @@ class Maxkcut(GraphOptimizationApplication):
         x = self._result_to_x(result)
         nx.draw(self._graph, node_color=self._node_color(x), pos=pos, with_labels=True)
 
-    def _node_color(self, x: np.ndarray) -> List[List[int]]:
+    def _node_color(self, x: np.ndarray) -> List[List[float]]:
         # Return a list of colors for draw.
 
         n = self._graph.number_of_nodes()
@@ -132,6 +132,7 @@ class Maxkcut(GraphOptimizationApplication):
         )
         gray = to_rgba("lightgray")
         node_colors = np.full((n, len(gray)), gray)
+        node_colors = [gray for _ in range(n)]
 
         n_selected = x.reshape((n, self._k_num))
         for i in range(n):
