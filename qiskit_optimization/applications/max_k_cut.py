@@ -70,11 +70,7 @@ class Maxkcut(GraphOptimizationApplication):
         mdl = Model(name="Max-k-cut")
         n = self._graph.number_of_nodes()
         k = self._k_num
-        x = {
-            (v, i): mdl.binary_var(name=f"x_{v}_{i}")
-            for v in range(n)
-            for i in range(k)
-        }
+        x = {(v, i): mdl.binary_var(name=f"x_{v}_{i}") for v in range(n) for i in range(k)}
         first_penalty = mdl.sum_squares((1 - mdl.sum(x[v, i] for i in range(k)) for v in range(n)))
         second_penalty = mdl.sum(
             mdl.sum(self._graph.edges[v, w]["weight"] * x[v, i] * x[w, i] for i in range(k))
