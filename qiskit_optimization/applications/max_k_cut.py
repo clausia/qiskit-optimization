@@ -130,7 +130,7 @@ class Maxkcut(GraphOptimizationApplication):
         colors = (
             cm.rainbow(np.linspace(0, 1, self._k_num)) if self._colors is None else self._colors
         )
-        gray = to_rgba('lightgray')
+        gray = to_rgba("lightgray")
         node_colors = np.full((n, len(gray)), gray)
 
         n_selected = x.reshape((n, self._k_num))

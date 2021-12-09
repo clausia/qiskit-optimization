@@ -68,7 +68,7 @@ class TestMaxkcut(QiskitOptimizationTestCase):
                 8: -2.0,
                 9: -2.0,
                 10: -2.0,
-                11: -2.0
+                11: -2.0,
             },
         )
         self.assertDictEqual(
@@ -112,7 +112,7 @@ class TestMaxkcut(QiskitOptimizationTestCase):
                 (8, 11): 1.0,
                 (9, 11): 2.0,
                 (10, 11): 2.0,
-                (11, 11): 1.0
+                (11, 11): 1.0,
             },
         )
         # Test constraint
@@ -130,19 +130,23 @@ class TestMaxkcut(QiskitOptimizationTestCase):
         maxkcut = Maxkcut(self.graph, self.k)
         self.assertEqual(
             [[round(num, 2) for num in i] for i in maxkcut._node_color(self.result.x)],
-            [[0.5, 1.0, 0.7, 1.0],
-             [0.5, 0.0, 1.0, 1.0],
-             [1.0, 0.0, 0.0, 1.0],
-             [0.5, 0.0, 1.0, 1.0]]
+            [
+                [0.5, 1.0, 0.7, 1.0],
+                [0.5, 0.0, 1.0, 1.0],
+                [1.0, 0.0, 0.0, 1.0],
+                [0.5, 0.0, 1.0, 1.0]
+            ],
         )
         # given colors
         maxkcut = Maxkcut(self.graph, self.k, colors=['r', 'g', 'b'])
         self.assertEqual(
             [[round(num, 2) for num in i] for i in maxkcut._node_color(self.result.x)],
-            [[0.0, 0.5, 0.0, 1.0],
-             [1.0, 0.0, 0.0, 1.0],
-             [0.0, 0.0, 1.0, 1.0],
-             [1.0, 0.0, 0.0, 1.0]]
+            [
+                [0.0, 0.5, 0.0, 1.0],
+                [1.0, 0.0, 0.0, 1.0],
+                [0.0, 0.0, 1.0, 1.0],
+                [1.0, 0.0, 0.0, 1.0]
+            ],
         )
 
     def test_draw(self):
