@@ -138,7 +138,7 @@ class TestMaxkcut(QiskitOptimizationTestCase):
             ],
         )
         # given colors
-        maxkcut = Maxkcut(self.graph, self.k, colors=['r', 'g', 'b'])
+        maxkcut = Maxkcut(self.graph, self.k, colors=["r", "g", "b"])
         self.assertEqual(
             [[round(num, 2) for num in i] for i in maxkcut._node_color(self.result.x)],
             [
