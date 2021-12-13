@@ -9,8 +9,6 @@ features:
     To solve this problem, the space-efficient quantum optimization algorithm for the graph
     coloring problem proposed in [1] is used.
 
-    [1]: Z. Tabi et al.,
-         "Quantum Optimization for the Graph Coloring Problem with Space-Efficient Embedding"
-         2020 IEEE International Conference on Quantum Computing and Engineering (QCE),
-         2020, pp. 56-62, doi: 10.1109/QCE49297.2020.00018.,
-         https://ieeexplore.ieee.org/document/9259934
+    [1]: Z. Tabi et al., "Quantum Optimization for the Graph Coloring Problem with Space-Efficient
+    Embedding," 2020 IEEE International Conference on Quantum Computing and Engineering (QCE),
+    2020, pp. 56-62, doi: 10.1109/QCE49297.2020.00018., https://ieeexplore.ieee.org/document/9259934
