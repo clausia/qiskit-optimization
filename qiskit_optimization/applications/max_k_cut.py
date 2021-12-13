@@ -53,7 +53,7 @@ class Maxkcut(GraphOptimizationApplication):
                 resulting subset, there must be as many colors as the number k
         """
         super().__init__(graph=graph)
-        self._k_num = k
+        self._subsets_num = k
         self._colors = colors if colors and len(colors) >= k else None
 
     def to_quadratic_program(self) -> QuadraticProgram:
@@ -69,7 +69,7 @@ class Maxkcut(GraphOptimizationApplication):
 
         mdl = Model(name="Max-k-cut")
         n = self._graph.number_of_nodes()
-        k = self._k_num
+        k = self._subsets_num
         x = {(v, i): mdl.binary_var(name=f"x_{v}_{i}") for v in range(n) for i in range(k)}
         first_penalty = mdl.sum_squares((1 - mdl.sum(x[v, i] for i in range(k)) for v in range(n)))
         second_penalty = mdl.sum(
@@ -93,9 +93,9 @@ class Maxkcut(GraphOptimizationApplication):
         """
         x = self._result_to_x(result)
         n = self._graph.number_of_nodes()
-        cut = [[] for i in range(self._k_num)]  # type: List[List[int]]
+        cut = [[] for i in range(self._subsets_num)]  # type: List[List[int]]
 
-        n_selected = x.reshape((n, self._k_num))
+        n_selected = x.reshape((n, self._subsets_num))
         for i in range(n):
             node_in_subset = np.where(n_selected[i] == 1)[0]  # one-hot encoding
             if len(node_in_subset) != 0:
@@ -123,13 +123,12 @@ class Maxkcut(GraphOptimizationApplication):
         n = self._graph.number_of_nodes()
 
         # k colors chosen from cm.rainbow, or from given color list
-        colors = (
-            cm.rainbow(np.linspace(0, 1, self._k_num)) if self._colors is None else self._colors
-        )
+        colors = cm.rainbow(np.linspace(0, 1, self._subsets_num)) \
+            if self._colors is None else self._colors
         gray = to_rgba("lightgray")
         node_colors = [gray for _ in range(n)]
 
-        n_selected = x.reshape((n, self._k_num))
+        n_selected = x.reshape((n, self._subsets_num))
         for i in range(n):
             node_in_subset = np.where(n_selected[i] == 1)  # one-hot encoding
             if len(node_in_subset[0]) != 0:
@@ -144,7 +143,7 @@ class Maxkcut(GraphOptimizationApplication):
         Returns:
             The number of colors
         """
-        return self._k_num
+        return self._subsets_num
 
     @k.setter
     def k(self, k: int) -> None:
@@ -153,7 +152,7 @@ class Maxkcut(GraphOptimizationApplication):
         Args:
             k: The number of colors
         """
-        self._k_num = k
+        self._subsets_num = k
         self._colors = self._colors if self._colors and len(self._colors) >= k else None
 
     @property
@@ -172,4 +171,4 @@ class Maxkcut(GraphOptimizationApplication):
         Args:
             colors: The k size color list
         """
-        self._colors = colors if colors and len(colors) >= self._k_num else None
+        self._colors = colors if colors and len(colors) >= self._subsets_num else None
