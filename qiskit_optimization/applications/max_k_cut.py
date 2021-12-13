@@ -123,8 +123,11 @@ class Maxkcut(GraphOptimizationApplication):
         n = self._graph.number_of_nodes()
 
         # k colors chosen from cm.rainbow, or from given color list
-        colors = cm.rainbow(np.linspace(0, 1, self._subsets_num)) \
-            if self._colors is None else self._colors
+        colors = (
+            cm.rainbow(np.linspace(0, 1, self._subsets_num))
+            if self._colors is None
+            else self._colors
+        )
         gray = to_rgba("lightgray")
         node_colors = [gray for _ in range(n)]
 
